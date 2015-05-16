@@ -5,17 +5,58 @@ output:
     keep_md: true
 ---
 
+This is the R markdown file for Peer Assessment 1. 
 
-## Loading and preprocessing the data
+We start by loading in the data.
+
+## Loading and preprocessing the data  
+ We assume there is a zipped folder called activity.zip in the directory where this is run. After unzipping this folder, we load in "activity.csv" into a variable named activityData.
+```{r}
+unzip("activity.zip")
+activityData <- read.csv("activity.csv",header=TRUE)
+```
+
+I'm going to use the dplyr package to manipulate the data, so let's load that (and plyr just in case) and convert our activity data frame to a table. 
+
+```{r,results="hide",message=FALSE,warning=FALSE}
+library("plyr")
+library("dplyr")
+activityData <- tbl_df(activityData)
+```
 
 
+## What is mean total number of steps taken per day?  
 
-## What is mean total number of steps taken per day?
+For this calculation, we are going to ignore missing values and simply add together all steps across all intervals for every day.   
 
+We start by grouping the activityData table by date and then using the summarize function to summarize the total steps in a sum.  
 
+```{r}
+totalStepsPerDay <- summarize(group_by(activityData,date),stepsTaken=sum(steps))
+```
+
+This has given us a data frame with one column for dates and another for the sum of all steps on that date. From this point we can calculate the average steps taken per day with a simple mean calculation, removing the NAs. We can pull in the median, too. 
+
+```{r}
+meanSteps <- mean(totalStepsPerDay$stepsTaken,na.rm=TRUE)
+medianSteps <- median(totalStepsPerDay$stepsTaken,na.rm=TRUE)
+```
+
+And now we know that the mean number of steps taken on days that have data is `r meanSteps` and the median is `r medianSteps`.  
+
+It would be nice to see the distribution of total steps. Let's make a histogram using ggplot2.
+
+```{r,warning=FALSE,message=FALSE}
+library(ggplot2)
+p<-qplot(stepsTaken,data=totalStepsPerDay,geom="histogram",main="Steps Taken in a Day",ylab="Frequency",xlab="Steps Taken")
+print(p)
+```
 
 ## What is the average daily activity pattern?
 
+To look at the behavior of steps taken throughout the day, we will make a time-series plot of all of the intervals in a day and the average of steps taken for every interval across all days.
+
+We will make 
 
 
 ## Imputing missing values
