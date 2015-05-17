@@ -124,7 +124,9 @@ steps &lt;- maxInterval$averageSteps</code></pre>
 numNAs &lt;- nrow(isStepNA)</code></pre>
 <p>We have <strong>2304</strong> missing values in our original data.</p>
 <p>Now we find the median value of steps taken for all intervals as we did for the average number of steps, and join the result to the data frame we created of only those rows with NA values. Then we select only the columns we need. I will</p>
-<pre class="r"><code>medianIntervalSteps &lt;-activityData %&gt;% group_by(interval) %&gt;% summarize(medSteps=median(steps,na.rm=TRUE))
+<pre class="r"><code>medianIntervalSteps &lt;-activityData %&gt;% 
+    group_by(interval) %&gt;% 
+    summarize(medSteps=median(steps,na.rm=TRUE))
 replacedNAs &lt;- join(medianIntervalSteps,isStepNA,by=&quot;interval&quot;)
 replacedNAs &lt;- select(replacedNAs, steps=medSteps, date=date,interval=interval)</code></pre>
 <p>What we are left with looks like this:</p>
@@ -156,8 +158,8 @@ qplot(stepsTaken,data=totalStepsPerDayNoNA,
 <p>The average steps taken in a day is now <strong>9503.8688525</strong> steps, and the median value is now <strong>10395</strong> steps.</p>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
-<h2>Are there differences in activity patterns between weekdays and weekends?</h2>
-<p>To answer this, we need to create a new factor column in our main data table. We can convert the existing date column to POSIX value and find what day of the week it was, and based on that, sort the days into weekends and weekdays.</p>
+<h2>Are there differences in activity patterns between weekdays and weekend?s</h2>
+<p>To answer this, we need to create a new factor column in our main data table. We can convert the existing date column to POSIXlt value and find what day of the week it was, and based on that, sort the days into weekends and weekdays.</p>
 <pre class="r"><code>activityDataFinal &lt;- activityDataFinal %&gt;% 
     mutate(
         day = weekdays(as.POSIXlt(activityDataFinal$date)),

@@ -109,7 +109,9 @@ We have **2304** missing values in our original data.
 Now we find the median value of steps taken for all intervals as we did for the average number of steps, and join the result to the data frame we created of only those rows with NA values. Then we select only the columns we need. I will
 
 ```r
-medianIntervalSteps <-activityData %>% group_by(interval) %>% summarize(medSteps=median(steps,na.rm=TRUE))
+medianIntervalSteps <-activityData %>% 
+    group_by(interval) %>% 
+    summarize(medSteps=median(steps,na.rm=TRUE))
 replacedNAs <- join(medianIntervalSteps,isStepNA,by="interval")
 replacedNAs <- select(replacedNAs, steps=medSteps, date=date,interval=interval)
 ```
@@ -159,9 +161,9 @@ qplot(stepsTaken,data=totalStepsPerDayNoNA,
 
 The average steps taken in a day is now **9503.8688525** steps, and the median value is now **10395** steps.
 
-## Are there differences in activity patterns between weekdays and weekends?
+## Are there differences in activity patterns between weekdays and weekend?s
 
-To answer this, we need to create a new factor column in our main data table. We can convert the existing date column to POSIX value and find what day of the week it was, and based on that, sort the days into weekends and weekdays.
+To answer this, we need to create a new factor column in our main data table. We can convert the existing date column to POSIXlt value and find what day of the week it was, and based on that, sort the days into weekends and weekdays.
 
 ```r
 activityDataFinal <- activityDataFinal %>% 
