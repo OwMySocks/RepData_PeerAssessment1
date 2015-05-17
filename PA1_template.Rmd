@@ -26,7 +26,7 @@ activityData <- tbl_df(activityData)
 
 ## What is mean total number of steps taken per day?  
 
-For this calculation, we are going to ignore missing values and simply add together all steps across all intervals for every day.   
+For this calculation, we are going to ignore missing values and simply add together all steps across all 5-minute intervals for every day.   
 
 We start by grouping the activityData table by date and then using the summarize function to add together all steps in a date.  
 
@@ -60,9 +60,9 @@ And now we know that the mean number of steps taken on days that have data is **
 
 ## What is the average daily activity pattern?
 
-To look at the behavior of steps taken throughout the day, we will make a time-series plot of all of the intervals in a day and the average of steps taken for every interval across all days.
+To look at the behavior of steps taken throughout the day, we will make a time-series plot of all of the 5-minute intervals in a day and the average of steps taken for every interval across all days.
 
-We will summarize activityData in a similar way as before, except grouping by time interval and summarizing it as an average rather than a sum. Again, for right now we will simply thow out NA values in our mean calculation. 
+We will summarize activityData in a similar way as before, except grouping by interval and summarizing it as an average rather than a sum. Again, for right now we will simply thow out NA values in our mean calculation. 
 
 We then can simply create the time series chart with ggplot2. 
 
@@ -75,23 +75,23 @@ qplot(interval,averageSteps,
       data=averageIntervalSteps,
       geom="line",main="Average Daily Activity",
       ylab="Average Steps Taken",
-      xlab="Time Interval")
+      xlab="5-Minute Interval")
 ```
 
-And we can find the interval with the maximum average number of steps as well.
+And we can find the 5-minute interval with the maximum average number of steps as well.
 ```{r}
 maxInterval <- averageIntervalSteps[which.max(averageIntervalSteps$averageSteps),]
 interval <- maxInterval$interval
 steps <- maxInterval$averageSteps
 ```
 
-The time interval with the largest average steps taken is **`r interval`** with 
+The 5-minute interval with the largest average steps taken is **`r interval`** with 
 **`r steps`** steps taken during it on average.
 
 
 ## Imputing missing values
 
-Now we will handle the missing data. We will replace each missing value with the median value of the corrosponding time interval. 
+Now we will handle the missing data. We will replace each missing value with the median value of the corrosponding 5-minute interval. 
 
 First we look at the NAs themselves.
 ```{r}
@@ -139,7 +139,7 @@ qplot(stepsTaken,data=totalStepsPerDayNoNA,
 
 The average steps taken in a day is now **`r meanStepsNoNA`** steps, and the median value is now **`r medianStepsNoNA`** steps.
 
-## Are there differences in activity patterns between weekdays and weekend?s
+## Are there differences in activity patterns between weekdays and weekends?
 
 To answer this, we need to create a new factor column in our main data table. We can convert the existing date column to POSIXlt value and find what day of the week it was, and based on that, sort the days into weekends and weekdays.
 ```{r}
@@ -163,7 +163,7 @@ qplot(interval,averageSteps,data=summarizedWeekInterval,
       geom="line",
       main="Average Daily Activity on Weekends and Weekdays",
       ylab="Average Steps Taken",
-      xlab="Time Interval")
+      xlab="5-Minute Interval")
 ```
 
 
