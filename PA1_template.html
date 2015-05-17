@@ -123,7 +123,7 @@ steps &lt;- maxInterval$averageSteps</code></pre>
 <pre class="r"><code>isStepNA &lt;- activityData[is.na(activityData$steps),]
 numNAs &lt;- nrow(isStepNA)</code></pre>
 <p>We have <strong>2304</strong> missing values in our original data.</p>
-<p>Now we find the median value of steps taken for all intervals as we did for the average number of steps, and join the result to the data frame we created of only those rows with NA values. Then we select only the columns we need. I will</p>
+<p>Now we find the median value of steps taken for all intervals as we did for the average number of steps, and join the result to the data frame we created of only those rows with NA values. Then we select only the columns we need.</p>
 <pre class="r"><code>medianIntervalSteps &lt;-activityData %&gt;% 
     group_by(interval) %&gt;% 
     summarize(medSteps=median(steps,na.rm=TRUE))

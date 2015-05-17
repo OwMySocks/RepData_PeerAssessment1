@@ -106,7 +106,7 @@ numNAs <- nrow(isStepNA)
 ```
 We have **2304** missing values in our original data. 
 
-Now we find the median value of steps taken for all intervals as we did for the average number of steps, and join the result to the data frame we created of only those rows with NA values. Then we select only the columns we need. I will
+Now we find the median value of steps taken for all intervals as we did for the average number of steps, and join the result to the data frame we created of only those rows with NA values. Then we select only the columns we need. 
 
 ```r
 medianIntervalSteps <-activityData %>% 
